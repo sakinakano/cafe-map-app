@@ -12,7 +12,7 @@ export default function NewCafePage() {
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
   const [description, setDescription] = useState("");
-  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
 
   const handleSubmit = async () => {
     if (!name) {
@@ -34,7 +34,9 @@ export default function NewCafePage() {
 
     let imageUrl: string | null = null;
 
-    if (imageFile) {
+    const imageUrls: string[] = [];
+
+    for (const imageFile of imageFiles) {
       const formData = new FormData();
 
       formData.append("file", imageFile);
@@ -51,7 +53,7 @@ export default function NewCafePage() {
         return;
       }
 
-      imageUrl = result.imageUrl;
+      imageUrls.push(result.imageUrl);
     }
 
     const { error } = await supabase.from("cafes").insert({
@@ -61,7 +63,7 @@ export default function NewCafePage() {
       latitude: Number(latitude),
       longitude: Number(longitude),
       description: description || null,
-      image_url: imageUrl,
+      image_urls: imageUrls,
       is_public: true,
     });
 
@@ -72,6 +74,12 @@ export default function NewCafePage() {
 
     alert("カフェを投稿しました");
     router.push("/");
+  };
+
+  const handleRemoveImage = (index: number) => {
+    setImageFiles((prev) =>
+      prev.filter((_, i) => i !== index)
+    );
   };
 
   return (
@@ -123,20 +131,54 @@ export default function NewCafePage() {
               className="w-full rounded-2xl border border-gray-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-amber-400"
             />
           </div>
+        </div>
 
-          <div>
-            <label className="mb-2 block text-sm font-medium">画像</label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => {
-                if (e.target.files && e.target.files[0]) {
-                  setImageFile(e.target.files[0]);
-                }
-              }}
-            />
+        <div>
+          <label className="mb-2 block text-sm font-medium">画像</label>
+          <input
+            type="file"
+            multiple
+            accept="image/*"
+            onChange={(e) => {
+              const files = e.target.files;
+              if (!files) return;
+              setImageFiles((prev) => [
+                ...prev,
+                ...Array.from(files),
+              ]);
+            }}
+            className="w-full rounded-2xl border border-gray-200 px-4 py-3"
+          />
+          <div className="mt-3 space-y-2">
+            {imageFiles.map((file, index) => (
+              <div
+                key={index}
+                className="flex items-center justify-between gap-3 rounded-lg bg-gray-100 p-3"
+              >
+                <div className="flex min-w-0 items-center gap-3">
+                  <img
+                    src={URL.createObjectURL(file)}
+                    alt=""
+                    className="h-14 w-14 flex-shrink-0 rounded-lg object-cover"
+                  />
+
+                  <span className="truncate text-sm">
+                    {file.name}
+                  </span>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => handleRemoveImage(index)}
+                  className="flex-shrink-0 text-sm text-red-500"
+                >
+                  削除
+                </button>
+              </div>
+            ))}
           </div>
         </div>
+        
 
         <div className="mb-6">
           <label className="mb-2 block text-sm font-medium">メモ</label>
