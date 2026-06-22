@@ -55,7 +55,7 @@ export default function FavoritesPage() {
   }, [router]);
 
   return (
-    <main className="min-h-screen bg-orange-50 px-4 py-8">
+    <div>
       <h1 className="mb-6 text-2xl font-bold">お気に入り一覧</h1>
 
       <div className="space-y-4">
@@ -90,6 +90,6 @@ export default function FavoritesPage() {
           </div>
         ))}
       </div>
-    </main>
+    </div>
   );
 }

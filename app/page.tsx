@@ -50,35 +50,12 @@ export default function Home() {
     router.push(path);
   };
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-
-    alert("ログアウトしました");
-
-    router.push("/");
-  };
 
   return (
-    <main style={{ padding: 40 }}>
-      <h1 className="text-3xl font-bold">カフェマップ</h1>
+    <div>
 
       <CafeMap cafes={cafes} />
 
-      <button onClick={() => handleAuthNavigate("/favorites")} className="bg-black text-white px-4 py-2 rounded-full">
-        お気に入り一覧
-      </button>
-
-      <button onClick={() => handleAuthNavigate("/cafes/new")} className="bg-black text-white px-4 py-2 rounded-full">
-        カフェを投稿する
-      </button>
-
-      <button onClick={() => handleAuthNavigate("/mypage")} className="bg-black text-white px-4 py-2 rounded-full">
-        マイページ
-      </button>
-
-      <button onClick={handleLogout} className="bg-black text-white px-4 py-2 rounded-full">
-        ログアウト
-      </button>
-    </main>
+    </div>
   );
 }

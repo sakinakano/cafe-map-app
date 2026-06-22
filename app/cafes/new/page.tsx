@@ -83,7 +83,7 @@ export default function NewCafePage() {
   };
 
   return (
-    <main className="min-h-screen bg-orange-50 px-4 py-8">
+    <div>
       <div className="mx-auto max-w-md rounded-3xl bg-white p-6 shadow-sm">
         <h1 className="mb-6 text-2xl font-bold">カフェを投稿</h1>
 
@@ -197,6 +197,6 @@ export default function NewCafePage() {
           投稿する
         </button>
       </div>
-    </main>
+    </div>
   );
 }

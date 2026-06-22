@@ -53,7 +53,7 @@ export default function CafeMap({ cafes }: CafeMapProps) {
 
   return (
     <div>
-      <div className="mb-4 h-[400px] w-full overflow-hidden rounded-2xl">
+      <div className="mb-4 h-[calc(100vh-145px)] w-full overflow-hidden rounded-2xl">
         <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}>
           <Map
             defaultCenter={{ lat: 35.681236, lng: 139.767125 }}
@@ -123,7 +123,15 @@ export default function CafeMap({ cafes }: CafeMapProps) {
           <button
             type="button"
             onClick={() => setSelectedCafe(null)}
-            className="mt-4 text-sm text-gray-500"
+            className="
+              mt-4
+              ml-2
+              rounded-full
+              bg-black
+              px-4
+              py-2
+              text-white
+            "
           >
             閉じる
           </button>
