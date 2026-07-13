@@ -54,6 +54,28 @@ export default function FavoritesPage() {
     fetchFavorites();
   }, [router]);
 
+  const handleRemoveFavorite = async (favoriteId: string) => {
+    const result = confirm("お気に入りから外しますか？");
+
+    if (!result) return;
+
+    const { error } = await supabase
+      .from("favorites")
+      .delete()
+      .eq("id", favoriteId);
+
+    if (error) {
+      alert(error.message);
+      return;
+    }
+
+    setFavorites((prev) =>
+      prev.filter((favorite) => favorite.id !== favoriteId)
+    );
+
+    alert("お気に入りから外しました");
+  };
+
   return (
     <div>
       <h1 className="mb-6 text-2xl font-bold">お気に入り一覧</h1>
@@ -87,6 +109,14 @@ export default function FavoritesPage() {
                 {favorite.cafes.description}
               </p>
             )}
+
+            <button
+              type="button"
+              onClick={() => handleRemoveFavorite(favorite.id)}
+              className="mt-4 rounded-full bg-red-500 px-4 py-2 text-sm text-white"
+            >
+              お気に入りから外す
+            </button>
           </div>
         ))}
       </div>
