@@ -3,7 +3,7 @@
 Googleマップ上でお気に入りのカフェを投稿・管理できるWebアプリです。
 
 URL：
-（デプロイ後に追加）
+https://cafe-map-app-git-main-sakinakanos-projects.vercel.app/
 
 ---
 
