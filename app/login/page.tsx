@@ -24,7 +24,22 @@ export default function LoginPage() {
       return;
     }
 
-    alert("登録成功");
+    if (data.user) {
+      const { error: insertError } = await supabase
+        .from("users")
+        .insert({
+          id: data.user.id,
+          name: "",
+          img_url: null,
+        });
+
+      if (insertError) {
+        alert(insertError.message);
+        return;
+      }
+    }
+
+    alert("登録しました");
   };
 
   const handleLogin = async () => {

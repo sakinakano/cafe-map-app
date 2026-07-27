@@ -5,6 +5,9 @@ Googleマップ上でお気に入りのカフェを投稿・管理できるWeb�
 URL：
 https://cafe-map-app-git-main-sakinakanos-projects.vercel.app/
 
+テストアカウント：
+
+
 ---
 
 # 使用技術
