@@ -6,7 +6,8 @@ URL：
 https://cafe-map-app-git-main-sakinakanos-projects.vercel.app/
 
 テストアカウント：
-
+メールアドレス　test@gmail.com
+パスワード　　　test1234
 
 ---
 

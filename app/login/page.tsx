@@ -20,6 +20,7 @@ export default function LoginPage() {
     console.log("SIGNUP ERROR", error);
 
     if (error) {
+      console.log(error);
       alert(error.message);
       return;
     }
