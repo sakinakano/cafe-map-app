@@ -31,9 +31,9 @@ export default function LoginPage() {
       return;
     }
 
-    alert("新規登録しました。確認メールをご確認ください。");
+    alert("新規登録しました。ログインしてください。");
   };
-  
+
   const handleLogin = async () => {
     const { error } = await supabase.auth.signInWithPassword({
       email,
@@ -50,7 +50,7 @@ export default function LoginPage() {
 
   return (
     <main style={{ padding: 40 }}>
-      <h1 className="text-3xl font-bold">ログイン</h1>
+      <h1 className="text-3xl font-bold mb-4">ログイン</h1>
 
       <div>
         <input
@@ -69,6 +69,7 @@ export default function LoginPage() {
                 focus:outline-none
                 focus:ring-2
                 focus:ring-black
+                mb-4
           "
         />
       </div>
@@ -90,11 +91,12 @@ export default function LoginPage() {
                 focus:outline-none
                 focus:ring-2
                 focus:ring-black
+                mb-4
           "
         />
       </div>
 
-      <button onClick={handleLogin} className="bg-black text-white px-4 py-2 rounded-full">ログイン</button>
+      <button onClick={handleLogin} className="bg-black text-white px-4 py-2 rounded-full mr-2">ログイン</button>
       <button onClick={handleSignUp} className="bg-black text-white px-4 py-2 rounded-full">新規登録</button>
     </main>
   );
