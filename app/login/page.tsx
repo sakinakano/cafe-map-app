@@ -11,8 +11,15 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
 
   const handleSignUp = async () => {
+    const normalizedEmail = email.trim().toLowerCase();
+
+    if (!normalizedEmail || !password) {
+      alert("メールアドレスとパスワードを入力してください");
+      return;
+    }
+
     const { data, error } = await supabase.auth.signUp({
-      email,
+      email: normalizedEmail,
       password,
     });
 
@@ -20,29 +27,13 @@ export default function LoginPage() {
     console.log("SIGNUP ERROR", error);
 
     if (error) {
-      console.log(error);
       alert(error.message);
       return;
     }
 
-    if (data.user) {
-      const { error: insertError } = await supabase
-        .from("users")
-        .insert({
-          id: data.user.id,
-          name: "",
-          img_url: null,
-        });
-
-      if (insertError) {
-        alert(insertError.message);
-        return;
-      }
-    }
-
-    alert("登録しました");
+    alert("新規登録しました。確認メールをご確認ください。");
   };
-
+  
   const handleLogin = async () => {
     const { error } = await supabase.auth.signInWithPassword({
       email,
