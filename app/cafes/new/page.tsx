@@ -37,23 +37,24 @@ export default function NewCafePage() {
     const imageUrls: string[] = [];
 
     for (const imageFile of imageFiles) {
-      const formData = new FormData();
+      const fileExt = imageFile.name.split(".").pop();
+      const fileName = `${crypto.randomUUID()}.${fileExt}`;
+      const filePath = `${userData.user.id}/${fileName}`;
 
-      formData.append("file", imageFile);
+      const { error: uploadError } = await supabase.storage
+        .from("cafe-images")
+        .upload(filePath, imageFile);
 
-      const res = await fetch("/api/upload/cafe", {
-        method: "POST",
-        body: formData,
-      });
-
-      const result = await res.json();
-
-      if (!res.ok) {
-        alert(result.error);
+      if (uploadError) {
+        alert(uploadError.message);
         return;
       }
 
-      imageUrls.push(result.imageUrl);
+      const { data: publicUrlData } = supabase.storage
+        .from("cafe-images")
+        .getPublicUrl(filePath);
+
+      imageUrls.push(publicUrlData.publicUrl);
     }
 
     const { error } = await supabase.from("cafes").insert({
