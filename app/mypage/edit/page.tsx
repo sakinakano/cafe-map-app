@@ -64,22 +64,25 @@ console.log("PROFILE ERROR", error);
     let newImgUrl: string | null = avatarUrl || null;
 
     if (avatarFile) {
-      const formData = new FormData();
-      formData.append("file", avatarFile);
+      const fileExt = avatarFile.name.split(".").pop();
+      const fileName = `${crypto.randomUUID()}.${fileExt}`;
 
-      const res = await fetch("/api/upload/cafe", {
-        method: "POST",
-        body: formData,
-      });
+      const filePath = `avatars/${userData.user.id}/${fileName}`;
 
-      const result = await res.json();
+      const { error: uploadError } = await supabase.storage
+        .from("cafe-images")
+        .upload(filePath, avatarFile);
 
-      if (!res.ok) {
-        alert(result.error);
+      if (uploadError) {
+        alert(uploadError.message);
         return;
       }
 
-      newImgUrl = result.imageUrl;
+      const { data: publicUrlData } = supabase.storage
+        .from("cafe-images")
+        .getPublicUrl(filePath);
+
+      newImgUrl = publicUrlData.publicUrl;
     }
 
     const { data, error } = await supabase
